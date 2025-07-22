@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Movie Ratings</title>
+
+  <!-- Bootstrap & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+
+  <style>
+    body {
+      overflow-x: hidden;
+      background-color: #f8f9fa;
+    }
+
+    /* 🎬 Sidebar Styling */
+    .sidebar {
+      min-height: 100vh;
+      background: linear-gradient(180deg, #000000 0%, #1a1a1a 100%);
+      color: #fff;
+      padding-top: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      border-right: 2px solid #d63384;
+    }
+
+    .sidebar h4 {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #ffc107;
+      text-shadow: 1px 1px 3px rgba(255, 193, 7, 0.5);
+    }
+
+    .sidebar .nav-link {
+      color: #ffffff;
+      font-size: 16px;
+      margin-bottom: 10px;
+      transition: background 0.3s ease, transform 0.2s ease;
+      border-radius: 8px;
+    }
+
+    .sidebar .nav-link:hover {
+      background-color: #343a40;
+      transform: scale(1.03);
+    }
+
+    .sidebar .nav-link.active {
+      background-color: black;
+      color: #fff;
+      font-weight: bold;
+      box-shadow: 0 0 10px black;
+    }
+
+    .navbar-brand {
+      color: #fff;
+    }
+
+    .content-container {
+      max-width: 1000px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    .content-title {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Navbar (Mobile) -->
+  <nav class="navbar navbar-dark bg-dark d-md-none">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <span class="navbar-brand">Movies Dashboard</span>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <!-- ✅ Sidebar -->
+      <nav id="offcanvasSidebar" class="col-md-2 col-lg-2 d-md-block sidebar offcanvas-md offcanvas-start text-white p-3">
+        <h4 class="text-center">🎬 Movie Admin</h4>
+        <hr />
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a href="/" class="nav-link active" data-section="dashboardSection">
+              <i class="bi bi-speedometer2 me-2"></i> Dashboard
+            </a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/moviee" data-section="categorySection">
+              <i class="bi bi-camera-reels me-2"></i> Add Movies
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/viewmovie" data-section="moviesSection">
+              <i class="bi bi-film me-2"></i> All Movies
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/reviewmovie" data-section="reviewsSection">
+              <i class="bi bi-chat-dots me-2"></i> Reviews
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- ✅ Main Content -->
+      <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4 pt-4">
+        <div class="content-container">
+          <h2 class="content-title">🎞️ Movie Ratings and Reviews</h2>
+
+          <form action="">
+            <% if(viewrate.length > 0) { %>
+              <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover">
+                  <thead class="table-dark">
+                    <tr>
+                      <th>SR.NO</th>
+                      <th>Username</th>
+                      <th>Movie Title</th>
+                      <th>Rating</th>
+                      <th>Review</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% viewrate.forEach((item, index) => { %>
+                      <tr>
+                        <td><%= index + 1 %></td>
+                        <td><%= item.username %></td>
+                        <td><%= item.title %></td>
+                        <td><%= item.rating %></td>
+                        <td><%= item.review %></td>
+                      </tr>
+                    <% }) %>
+                  </tbody>
+                </table>
+              </div>
+            <% } else { %>
+              <div class="alert alert-warning text-center" role="alert">
+                There is no data present.
+              </div>
+            <% } %>
+          </form>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

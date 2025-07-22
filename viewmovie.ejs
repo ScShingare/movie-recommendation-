@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ViewMovie</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+
+  <style>
+    body { overflow-x: hidden; }
+    .sidebar { min-height: 100vh; }
+    .sidebar .nav-link { color: #fff; cursor: pointer; }
+    .sidebar .nav-link.active { background-color: #343a40; border-radius: 0.375rem; }
+    .navbar-brand { color: #fff; }
+  </style>
+</head>
+<body class="bg-light">
+
+  <!-- ✅ Navbar (Mobile) -->
+  <nav class="navbar navbar-dark bg-dark d-md-none">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <span class="navbar-brand">Movies Dashboard</span>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <!-- ✅ Sidebar Navigation -->
+      <nav id="offcanvasSidebar" class="col-md-2 col-lg-2 d-md-block bg-black sidebar offcanvas-md offcanvas-start text-white p-3">
+        <h4 class="text-center">🎬 Admin Panel</h4>
+        <hr />
+        <ul class="nav flex-column">
+          <li class="nav-item"><a href="/" class="nav-link active" data-section="dashboardSection"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+          
+          <li class="nav-item"><a class="nav-link" data-section="categorySection"  href="/moviee"><i class="bi bi-tags me-2"  ></i>Add Movies</a></li>
+          <li class="nav-item"><a class="nav-link" data-section="moviesSection" href="/viewmovie"><i class="bi bi-film me-2"></i>All Movies</a></li>
+         
+          <li class="nav-item"><a class="nav-link" href="/reviewmovie" data-section="reviewsSection"><i class="bi bi-chat-dots me-2"></i>Reviews</a></li>
+         
+       
+        </ul>
+      </nav>
+
+      <!-- ✅ Main Content -->
+      <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4 pt-4">
+        <h4 class="text-center mb-4 text-primary">Movie Details</h4>
+
+        <!-- ✅ Search Bar for Filtering Movies (Uses External AJAX File) -->
+        <div class="mb-3">
+          <input type="text" name="search" class="form-control" placeholder="Search..." onkeyup="ajaxfile(this.value)">
+        </div>
+
+        <!-- ✅ Movie Table -->
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover align-middle text-nowrap">
+            <thead class="table-primary text-center">
+              <tr>
+                <th>SR.NO</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Release Date</th>
+                <th>Genre</th>
+                <th>Director</th>
+                <th>Language</th>
+                <th>Country</th>
+                <th>Budget</th>
+                <th>Revenue</th>
+                <th>Runtime</th>
+                <th>Poster</th>
+                <th>Trailer</th>
+                <th>Movie</th>
+                <th>delete</th>
+                <th>update</th>
+              </tr>
+            </thead>
+            <tbody id="tblbody">
+              <% if(viewm.length > 0) {
+                viewm.forEach((item, index) => { %>
+                  <tr>
+                    <td><%= index + 1 %></td>
+                    <td><%= item.title %></td>
+                    <td><%= item.description %></td>
+                    <td><%= item.release_date %></td>
+                    <td><%= item.genre %></td>
+                    <td><%= item.director %></td>
+                    <td><%= item.language %></td>
+                    <td><%= item.country %></td>
+                    <td><%= item.budget %></td>
+                    <td><%= item.revenue %></td>
+                    <td><%= item.runtime %></td>
+                    <td><img src="<%= item.poster_url %>" target="_blank" class="btn btn-sm btn-outline-primary" width="40px" height="60px"></img></td>
+                    <td><a href="<%= item.trailer_url %>" target="_blank" class="btn btn-sm btn-outline-success">Watch</a></td>
+                    <td><a href="<%= item.movie_url %>" target="_blank" class="btn btn-sm btn-outline-danger">Play</a></td>
+                     
+                    <td class="text-center">
+                    <a href="/deletemovie?mid=<%= item.mid %>" class="btn btn-sm btn-danger">
+                   <i class="bi bi-trash"></i> Delete
+                   </a>
+                   </td>
+                   <td class="text-center">
+                   <a href="/updatemovie?mid=<%= item.mid %>" class="btn btn-sm btn-warning text-white">
+                   <i class="bi bi-pencil-square"></i> Update
+                   </a>
+                   </td>
+
+                  </tr>
+              <% }) 
+              } else { %>
+                <tr>
+                  <td colspan="14" class="text-center text-muted">No movies available.</td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- ✅ AJAX Search File (Kept as External) -->
+  <script src="/ajaxfile.js"></script>
+
+  <!-- ✅ JavaScript for Sidebar Navigation -->
+  <script>
+    document.querySelectorAll('.nav-link[data-section]').forEach(link => {
+      link.addEventListener('click', function () {
+        // Remove active class from all links
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+
+        // Hide all sections, then show the clicked one
+        document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+        const sectionId = this.getAttribute('data-section');
+        document.getElementById(sectionId)?.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

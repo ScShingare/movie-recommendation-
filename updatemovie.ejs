@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Add New Movie</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+
+  <style>
+    body { overflow-x: hidden; background-color: #f8f9fa; }
+    .sidebar { min-height: 100vh; }
+    .sidebar .nav-link { color: #fff; cursor: pointer; }
+    .sidebar .nav-link.active { background-color: #343a40; border-radius: 0.375rem; }
+    .navbar-brand { color: #fff; }
+    .form-container {
+      max-width: 700px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .form-title { text-align: center; margin-bottom: 30px; }
+    .msg-box { text-align: center; color: green; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Navbar (Mobile) -->
+  <nav class="navbar navbar-dark bg-dark d-md-none">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <span class="navbar-brand">Movies Dashboard</span>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <!-- ✅ Sidebar Navigation -->
+      <nav id="offcanvasSidebar" class="col-md-2 col-lg-2 d-md-block bg-black sidebar offcanvas-md offcanvas-start text-white p-3">
+        <h4 class="text-center">🎬 Admin Panel</h4>
+        <hr />
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link" data-section="dashboardSection"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" data-section="moviesSection"><i class="bi bi-film me-2"></i>All Movies</a></li>
+          <li class="nav-item"><a class="nav-link active" data-section="categorySection"><i class="bi bi-tags me-2"></i>Add Movies</a></li>
+          <li class="nav-item"><a class="nav-link" data-section="reviewsSection"><i class="bi bi-chat-dots me-2"></i>Reviews</a></li>
+          <li class="nav-item"><a class="nav-link" data-section="settingsSection"><i class="bi bi-gear me-2"></i>Settings</a></li>
+        </ul>
+      </nav>
+
+      <!-- ✅ Main Content -->
+      <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4 pt-4">
+        <div class="form-container">
+          <h2 class="form-title">🎬 Update Movie</h2>
+
+          <form name="frm" action="/finalupdatemovie" method="post">
+            <div class="mb-3">
+                <input type="hidden" class="form-control" id="title" name="mid" value="<%= upmove[0].mid %>" required>
+              <label for="title" class="form-label">Movie Title</label>
+              <input type="text" class="form-control" id="title" name="title" value="<%= upmove[0].title %>" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea class="form-control" id="description" name="description" rows="3" required value="<%= upmove[0].description %>"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="release_date" class="form-label">Release Date</label>
+              <input type="date" class="form-control" id="release_date" name="release_date" value="<%= upmove[0].release_date %>" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="genre" class="form-label">Genre</label>
+              <input type="text" class="form-control" id="genre" name="genre" value="<%= upmove[0].genre %>" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="director" class="form-label">Director</label>
+              <input type="text" class="form-control" id="director" name="director"   value="<%= upmove[0].director %>" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="language" class="form-label">Language</label>
+              <input type="text" class="form-control" id="language" name="language" value="<%= upmove[0].language %>" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="country" class="form-label">Country</label>
+              <input type="text" class="form-control" id="country" name="country" value="<%= upmove[0].country %>" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="budget" class="form-label">Budget (USD)</label>
+              <input type="number" step="0.01" class="form-control" id="budget" name="budget" value="<%= upmove[0].budget %>" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="revenue" class="form-label">Revenue (USD)</label>
+              <input type="number" step="0.01" class="form-control" id="revenue" name="revenue" value="<%= upmove[0].revenue %>" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="runtime" class="form-label">Runtime (minutes)</label>
+              <input type="number" class="form-control" id="runtime" name="runtime" value="<%= upmove[0].runtime %>"required>
+            </div>
+
+            <div class="mb-3">
+              <label for="poster_url" class="form-label">Poster URL</label>
+              <input type="url" class="form-control" id="poster_url" name="poster_url" value="<%= upmove[0].poster_url %>"required>
+            </div>
+
+            <div class="mb-3">
+              <label for="trailer_url" class="form-label">Trailer URL</label>
+              <input type="url" class="form-control" id="trailer_url" name="trailer_url" value="<%= upmove[0].trailer_url %>" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="movie_url" class="form-label">Movie URL</label>
+              <input type="url" class="form-control" id="movie_url" name="movie_url" value="<%= upmove[0].movie_url %>"required>
+            </div>
+
+            <div class="mb-4 text-center">
+              <button type="submit" class="btn btn-primary px-4">Update</button>
+            </div>
+
+            <div class="msg-box">
+              <%= msg %>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

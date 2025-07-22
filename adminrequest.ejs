@@ -1,0 +1,14 @@
+<table>
+  <tr><th>Username</th><th>Action</th></tr>
+  <% admins.forEach(a => { %>
+    <tr>
+      <td><%= a.username %></td>
+      <td>
+        <form method="POST" action="/approveadmin">
+          <input type="hidden" name="id" value="<%= a.id %>" />
+          <button type="submit">Approve</button>
+        </form>
+      </td>
+    </tr>
+  <% }) %>
+</table>
